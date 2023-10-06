@@ -27,13 +27,31 @@ const Blog: React.FC<Props> = (props) => {
   return (
     <Layout>
       <div className="page">
-        <h1 className="text-3xl font-bold underline">Public Feed</h1>
         <main>
-          {props.feed.map((post) => (
-            <div key={post.id} className="post">
-              <Post post={post} />
-            </div>
-          ))}
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">Post</th>
+                  <th scope="col" className="px-6 py-3">Contents</th>
+      
+      
+                </tr>
+              </thead>
+              <tbody>
+                {props.feed.map((post) => (
+                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={post.id}> 
+                    <td className="px-6 py-4">
+                      <div>{post.title}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div>{post.content}</div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </main>
       </div>
       <style jsx>{`

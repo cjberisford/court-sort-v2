@@ -1,18 +1,20 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { signOut, useSession } from 'next-auth/react';
 
 
 const navigation = [
   { name: 'Feed', href: '/', current: true },
-  { name: 'Drafts', href: '/drafts', current: false }
+  { name: 'Drafts', href: '/drafts', current: true }
 ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+const Nav: React.FC = () => {
+  const { data: session, status } = useSession();
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -42,6 +44,7 @@ export default function Example() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
+
                       <a
                         key={item.name}
                         href={item.href}
@@ -64,7 +67,8 @@ export default function Example() {
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  {session ? session.user.name : null}
+                  {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
                 </button>
 
                 {/* Profile dropdown */}
@@ -112,7 +116,8 @@ export default function Example() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
+                          <a 
+                            onClick={() => signOut()}
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
@@ -149,4 +154,6 @@ export default function Example() {
       )}
     </Disclosure>
   )
-}
+};
+
+export default Nav;
