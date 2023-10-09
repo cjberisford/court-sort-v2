@@ -5,11 +5,14 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image'
 import csLogo from '../public/images/logo.svg'
+import Breadcrumbs from './Breadcrumbs';
+
 
 
 const navigation = [
-  { name: 'Feed', href: '/', current: true },
-  { name: 'Drafts', href: '/drafts', current: false }
+  { name: 'Home', href: '/', current: true },
+  { name: 'Clubs', href: '/clubs', current: false },
+  { name: 'Players', href: '/players', current: false }
 ]
 
 function classNames(...classes) {
@@ -38,11 +41,11 @@ const Nav: React.FC = () => {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                <Image
-                  src={csLogo}
-                  alt="Site logo"
-                  className="w-8"
-                />
+                  <Image
+                    src={csLogo}
+                    alt="Site logo"
+                    className="w-8"
+                  />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -87,9 +90,9 @@ const Nav: React.FC = () => {
                         />
                         :
                         <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                          <svg className="absolute w-10 h-10 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                          <svg className="absolute w-10 h-10 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
                         </div>
-                      } 
+                      }
                     </Menu.Button>
                   </div>
                   <Transition
@@ -102,23 +105,23 @@ const Nav: React.FC = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {session ? 
+                      {session ?
                         <><Menu.Item>
-                            {({ active }) => (
-                              <Link href="/" legacyBehavior>
-                                <a>
-                                  <div className="py-2">
-                                    <p className="block px-4  text-m text-gray-700">
-                                      {session.user.name}
-                                    </p>
-                                    <p className="block px-4 text-sm text-gray-700">
-                                      {session.user.email}
-                                    </p>
-                                  </div>
-                                </a>
-                              </Link>
-                            )}
-                          </Menu.Item>
+                          {({ active }) => (
+                            <Link href="/" legacyBehavior>
+                              <a>
+                                <div className="py-2">
+                                  <p className="block px-4  text-m text-gray-700">
+                                    {session.user.name}
+                                  </p>
+                                  <p className="block px-4 text-sm text-gray-700">
+                                    {session.user.email}
+                                  </p>
+                                </div>
+                              </a>
+                            </Link>
+                          )}
+                        </Menu.Item>
                           <hr />
                           <Menu.Item>
                             {({ active }) => (
@@ -143,7 +146,7 @@ const Nav: React.FC = () => {
                           <hr />
                           <Menu.Item>
                             {({ active }) => (
-                              <a 
+                              <a
                                 onClick={() => signOut()}
                                 href="#"
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
@@ -154,7 +157,7 @@ const Nav: React.FC = () => {
                           </Menu.Item>
                         </>
                         :
-                          <Menu.Item>
+                        <Menu.Item>
                           {({ active }) => (
                             <a
                               href="/api/auth/signin"
@@ -163,8 +166,8 @@ const Nav: React.FC = () => {
                               Sign in
                             </a>
                           )}
-                          </Menu.Item>
-                        }
+                        </Menu.Item>
+                      }
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -193,6 +196,7 @@ const Nav: React.FC = () => {
         </>
       )}
     </Disclosure>
+
   )
 };
 

@@ -5,8 +5,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
@@ -15,8 +15,34 @@ model Post {
   title     String
   content   String?
   published Boolean @default(false)
-  author    User?@relation(fields:[authorId], references:[id])
+  author    User?   @relation(fields: [authorId], references: [id])
   authorId  String?
+}
+
+model Club {
+  id       String   @id @default(cuid())
+  name     String
+  location String
+  venue    String
+  website  String
+  Team     Team[]
+  Player   Player[]
+}
+
+model Team {
+  id      String   @id @default(cuid())
+  name    String
+  captain String
+  club    Club?    @relation(fields: [club_id], references: [id])
+  club_id String?
+  Player  Player[]
+}
+
+model Player {
+  id    String @id @default(cuid())
+  name  String
+  clubs Club[]
+  teams Team[]
 }
 
 model Account {
@@ -35,17 +61,17 @@ model Account {
   oauth_token_secret String?
   oauth_token        String?
 
-  user User @relation(fields:[userId], references:[id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique@map("session_token")
+  sessionToken String   @unique @map("session_token")
   userId       String   @map("user_id")
   expires      DateTime
-  user         User     @relation(fields:[userId], references:[id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -67,6 +93,3 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
-
-
- 
