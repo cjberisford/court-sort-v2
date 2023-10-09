@@ -39,10 +39,14 @@ model Team {
 }
 
 model Player {
-  id    String @id @default(cuid())
-  name  String
-  clubs Club[]
-  teams Team[]
+  id             String @id @default(cuid())
+  name           String
+  clubs          Club[]
+  teams          Team[]
+  games_played   Int
+  win_count      Int
+  win_percentage Int
+  coefficient    Int
 }
 
 model Account {

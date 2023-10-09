@@ -10,7 +10,7 @@ import Breadcrumbs from './Breadcrumbs';
 
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
+  { name: 'Leagues', href: '/', current: true },
   { name: 'Clubs', href: '/clubs', current: false },
   { name: 'Players', href: '/players', current: false }
 ]
@@ -22,7 +22,7 @@ function classNames(...classes) {
 const Nav: React.FC = () => {
   const { data: session, status } = useSession();
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gradient-to-r from-gray-900 to-cyan-300">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
