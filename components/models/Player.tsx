@@ -1,15 +1,8 @@
 import React from "react";
-import Router from "next/router";
-import ReactMarkdown from "react-markdown";
 
 export type PlayerProps = {
-  id: string;
+  id: number;
   name: string;
-  clubs: [];
-  teams: [];
-  games_played: number;
-  win_count: number;
-  coefficient: number;
 };
 
 const Player: React.FC<{ player: PlayerProps }> = ({ player }) => {

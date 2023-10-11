@@ -10,43 +10,91 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Post {
-  id        String  @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
+model League {
+  id        Int        @id @default(autoincrement())
+  name      String
+  county    String
+  divisions Division[] @relation("league_divisions")
+}
+
+model Player {
+  id         Int    @id @default(autoincrement())
+  name       String
+  club       Club   @relation(name: "player_club", fields: [clubId], references: [id])
+  clubId     Int
+  teams      Team[] @relation("team_player")
+  home_games Game[] @relation("home_players")
+  away_games Game[] @relation("away_players")
+  captain_of Team[] @relation("captain")
 }
 
 model Club {
-  id       String   @id @default(cuid())
+  id       Int        @id @default(autoincrement())
   name     String
   location String
   venue    String
   website  String
-  Team     Team[]
-  Player   Player[]
+  teams    Team[]     @relation("club_team")
+  sessions Training[] // Many-to-Many relationship with Training
+  players  Player[]   @relation("player_club")
 }
 
 model Team {
-  id      String   @id @default(cuid())
-  name    String
-  captain String
-  club    Club?    @relation(fields: [club_id], references: [id])
-  club_id String?
-  Player  Player[]
+  id           Int        @id @default(autoincrement())
+  name         String
+  captain      Player     @relation("captain", fields: [captain_id], references: [id])
+  captain_id   Int
+  divisions    Division[]
+  players      Player[]   @relation("team_player")
+  home_matches Match[]    @relation("matches_home")
+  away_matches Match[]    @relation("matches_away")
+  club         Club       @relation("club_team", fields: [club_id], references: [id])
+  club_id      Int        @unique
 }
 
-model Player {
-  id             String @id @default(cuid())
-  name           String
-  clubs          Club[]
-  teams          Team[]
-  games_played   Int
-  win_count      Int
-  win_percentage Int
-  coefficient    Int
+model Division {
+  id        Int     @id @default(autoincrement())
+  name      String
+  teams     Team[]
+  matches   Match[]
+  league    League  @relation(name: "league_divisions", fields: [league_id], references: [id])
+  league_id Int
+}
+
+model Match {
+  id           Int       @id @default(autoincrement())
+  date         DateTime
+  venue        String
+  home_team    Team      @relation("matches_home", fields: [homeTeamId], references: [id])
+  homeTeamId   Int
+  away_team    Team      @relation("matches_away", fields: [awayTeamId], references: [id])
+  awayTeamId   Int
+  home_rubbers Int
+  away_rubbers Int
+  games        Game[]    @relation("game_match")
+  division     Division? @relation(fields: [divisionId], references: [id])
+  divisionId   Int?
+}
+
+model Game {
+  id           Int       @id @default(autoincrement())
+  home_points  Int
+  away_points  Int
+  match        Match?    @relation("game_match", fields: [matchId], references: [id])
+  matchId      Int?
+  training     Training? @relation("game_training", fields: [trainingId], references: [id])
+  trainingId   Int?
+  home_players Player[]  @relation("home_players")
+  away_players Player[]  @relation("away_players")
+}
+
+model Training {
+  id     Int      @id @default(autoincrement())
+  date   DateTime
+  venue  String
+  games  Game[]   @relation("game_training")
+  club   Club?    @relation(fields: [clubId], references: [id])
+  clubId Int?
 }
 
 model Account {
@@ -84,7 +132,6 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  posts         Post[]
   accounts      Account[]
   sessions      Session[]
 }

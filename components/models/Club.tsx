@@ -1,7 +1,7 @@
 import React from "react";
 
 export type ClubProps = {
-  id: string;
+  id: number;
   name: string;
 };
 

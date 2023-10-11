@@ -11,7 +11,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const club = await prisma.club.findUnique({
     where: {
-      id: String(params?.id),
+      id: Number(params?.id),
     },
   });
   return {

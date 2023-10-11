@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = (props) => (
-  <div className="h-screen bg-gradient-to-r from-gray-800 to-cyan-200">
+  <div className="bg-gradient-to-r from-gray-800 to-cyan-200 min-h-screen">
     <Nav />
     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <Breadcrumbs />
