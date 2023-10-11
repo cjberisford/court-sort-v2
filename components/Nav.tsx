@@ -6,11 +6,12 @@ import Link from 'next/link';
 import Image from 'next/image'
 import csLogo from '../public/images/logo.svg'
 import Breadcrumbs from './Breadcrumbs';
+import { ModeToggle } from './ui/theme';
 
 
 
 const navigation = [
-  { name: 'Leagues', href: '/', current: true },
+  { name: 'Leagues', href: '/leagues', current: false },
   { name: 'Clubs', href: '/clubs', current: false },
   { name: 'Players', href: '/players', current: false }
 ]
@@ -22,14 +23,15 @@ function classNames(...classes) {
 const Nav: React.FC = () => {
   const { data: session, status } = useSession();
   return (
-    <Disclosure as="nav" className="bg-gradient-to-r from-gray-900 to-cyan-300">
+    <Disclosure as="nav" className="bg-background text-foreground">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div className="relative flex h-16 items-center justify-between">
+
+          <div className="mx-auto max-w-6xl">
+            <div className="relative flex h-16 items-center justify-between px-8">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -41,6 +43,7 @@ const Nav: React.FC = () => {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
+
                   <Image
                     src={csLogo}
                     alt="Site logo"
@@ -55,7 +58,7 @@ const Nav: React.FC = () => {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          item.current ? '' : '',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
                         aria-current={item.current ? 'page' : undefined}
@@ -70,9 +73,10 @@ const Nav: React.FC = () => {
 
 
                 {/* Profile dropdown */}
+                <ModeToggle />
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       {session ?
