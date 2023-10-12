@@ -102,7 +102,13 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="flex items-center justify-middle px-2">
         <div className="flex-1 text-sm text-muted-foreground">
-          Found {table.getFilteredRowModel().rows.length} result{table.getFilteredRowModel().rows.length > 1 ? 's' : ''}.
+          Showing {" "}
+          {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
+          {" "} - {" "}
+          {table.getState().pagination.pageIndex * (table.getState().pagination.pageSize) + table.getRowModel().rows?.length}
+          {" "} of {" "}
+          {table.getFilteredRowModel().rows.length} row{table.getFilteredRowModel().rows.length > 1 ? 's' : ''}.
+
         </div>
         <div className="flex items-center space-x-6 lg:space-x-8">
           <div className="flex items-center space-x-2">
