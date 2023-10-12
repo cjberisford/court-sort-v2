@@ -44,11 +44,10 @@ const Nav: React.FC = () => {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
 
-                  <Image
-                    src={csLogo}
-                    alt="Site logo"
-                    className="w-8"
-                  />
+                  <div className="h-6 w-6 bg-primary mr-1"></div>
+                  <span className="font-bold">CourtSort</span>
+
+
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">

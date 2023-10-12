@@ -4,21 +4,14 @@ import Layout from "../components/Layout"
 import prisma from '../lib/prisma';
 import { PlayerProps } from "../components/models/Player";
 import { useRouter } from 'next/router'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../components/ui/table"
+import { columns } from "../components/models/players/columns";
+import { DataTable } from "../components/ui/data-table";
+
 
 export const getStaticProps: GetStaticProps = async () => {
   const players = await prisma.player.findMany({
     include: {
-      club: {
-        select: { name: true },
-      },
+      club: true
     },
   });
   return {
@@ -32,29 +25,24 @@ type Props = {
 }
 
 const Players: React.FC<Props> = (props) => {
+
+  const tableData = []
+
+  props.players.map((playerData) => {
+    const playerObject = {
+      id: playerData.id,
+      name: playerData.name,
+      club: playerData.club.name
+    }
+    tableData.push(playerObject)
+  })
+
   const router = useRouter();
+
   return (
 
     <Layout >
-      <div className="page">
-        <h1 className="text-4xl my-8">Players</h1>
-      </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Club</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {props.players.map((player) => (
-            <TableRow onClick={() => { router.push(`/players/${player.id}`) }} key={player.id}>
-              <TableCell className="font-medium">{player.name}</TableCell>
-              <TableCell>{player.club.name}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <DataTable data={tableData} columns={columns} />
     </Layout >
   )
 }
