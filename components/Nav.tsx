@@ -23,11 +23,11 @@ function classNames(...classes) {
 const Nav: React.FC = () => {
   const { data: session, status } = useSession();
   return (
-    <Disclosure as="nav" className="bg-background text-foreground">
+    <Disclosure as="nav" className="bg-background text-foreground border-b-2 border-primary">
       {({ open }) => (
         <>
 
-          <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-6xl  ">
             <div className="relative flex h-16 items-center justify-between px-8">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}

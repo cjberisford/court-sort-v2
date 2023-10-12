@@ -29,8 +29,8 @@ const Leagues: React.FC<Props> = (props) => {
       disableTransitionOnChange
     >
       < Layout >
-        <div className="page bg-white">
-          <h1 className="text-4xl bg-white">Registered Leagues</h1>
+        <div className="page">
+          <h1 className="text-4xl">Registered Leagues</h1>
 
           {props.leagues.map((league) => (
             <div key={league.id}>

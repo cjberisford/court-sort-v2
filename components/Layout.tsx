@@ -13,9 +13,9 @@ const Layout: React.FC<Props> = (props) => (
     defaultTheme="system"
     enableSystem
     disableTransitionOnChange
-  >  <div className="bg-primary text-primary-foreground min-h-screen">
+  >  <div className="bg-background text-foreground min-h-screen">
       <Nav />
-      <div className="mx-auto max-w-6xl px-2 md:px-4 lg:px-8 text-white bg-gray-900">
+      <div className="mx-auto max-w-6xl px-2 md:px-4 lg:px-8">
         <Breadcrumbs />
         {props.children}
       </div>

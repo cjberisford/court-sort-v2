@@ -1,8 +1,11 @@
 import React from "react";
 
 export type PlayerProps = {
+
   id: number;
   name: string;
+  clubId: number;
+  club: any;
 };
 
 const Player: React.FC<{ player: PlayerProps }> = ({ player }) => {
