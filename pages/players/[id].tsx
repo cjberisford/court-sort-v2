@@ -3,6 +3,9 @@ import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
 import { PlayerProps } from '../../components/models/Player';
 import prisma from '../../lib/prisma';
+import { ScrollArea } from '../../components/ui/scroll-area';
+import { Button } from '../../components/ui/button';
+import Breadcrumbs from '../../components/Breadcrumbs';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const player = await prisma.player.findUnique({
@@ -23,7 +26,7 @@ const Player: React.FC<PlayerProps> = (props) => {
     "Games Won": 0,
     "Win Percentage": `0%`,
     "Ranking": 0,
-    "Club": 0,
+    "Club": "Ossett Badminton Club",
     "Best Partnership": "Dan Fan",
     "Honours": 0
   }
@@ -31,14 +34,69 @@ const Player: React.FC<PlayerProps> = (props) => {
   console.log(stats)
   return (
     <Layout>
-      <div className="grid gap-4 ">
-        <div className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-          {props.name}
+      <Breadcrumbs playerName={props.name}></Breadcrumbs>
+      <div className="grid grid-cols-1 md:grid-cols-2 pt-4">
+        <div>
+          <h1 className="mb-4 text-3xl text-primary font-medium leading-none tracking-tight ">
+            {props.name}
+          </h1>
+          <h2 className="text-2xl">{stats["Club"]}</h2>
         </div>
-        <div className="max-w-5xl grid gap-2 grid-cols-2 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <div>
+          <div>
+            <h2 className="text-xl pb-4">Match History</h2>
+          </div>
+          <ScrollArea className="h-[180px] w-full rounded-md border">
+            <div className="flex flex-col grow rounded-md w-full">
+              <div className="grow">
+                <Button variant="outline" className="w-full">
+                  Ossett A v Ossett B
+                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
+                </Button>
+              </div>
+              <div>
+                <Button variant="outline" className="w-full">
+                  Ossett A v Ossett B
+                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
+                </Button>
+              </div>
+
+              <div className="grow">
+                <Button variant="outline" className="w-full">
+                  Ossett A v Ossett B
+                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
+                </Button>
+              </div>
+              <div>
+                <Button variant="outline" className="w-full">
+                  Ossett A v Ossett B
+                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
+                </Button>
+              </div>
+              <div className="grow">
+                <Button variant="outline" className="w-full">
+                  Ossett A v Ossett B
+                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
+                </Button>
+              </div>
+              <div>
+                <Button variant="outline" className="w-full">
+                  Ossett A v Ossett B
+                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
+                </Button>
+              </div>
+
+            </div>
+          </ScrollArea>
+
+        </div>
+      </div>
+      <div className="grid gap-4 my-4">
+
+        <div className="flex flex-wrap">
           {Object.entries(stats).map(([key, stat]) => {
             return (
-              <div key={key} className="xs:h-auto xs:square bg-gradient-to-tr from-gray-900 to-gray-600 bg-gradient-to-r text-center aspect-square text-dark p-2">
+              <div key={key} className="border border-primary text-center w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 aspect-square">
                 <div className="flex h-full items-center justify-center">
                   <div className="m-auto">
                     <div className="py-2 font-bold">
@@ -53,17 +111,7 @@ const Player: React.FC<PlayerProps> = (props) => {
             )
           })}
         </div>
-        <h2 className="text-4xl font-bold ">Match History</h2>
-        <div className="flex flex-col overflow-y-scroll">
-          <div className="flex h-full items-center justify-center py-4 bg-gray-600 rounded-md ">
-            <a href="#">
-              <div className="items-center align-middle">
-                Ossett A v Ossett B
-                <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
-              </div>
-            </a>
-          </div>
-        </div>
+
       </div>
     </Layout >
   );

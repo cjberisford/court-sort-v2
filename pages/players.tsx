@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import { columns } from "../components/models/players/columns";
 import { DataTable } from "../components/ui/data-table";
 
-
 export const getStaticProps: GetStaticProps = async () => {
   const players = await prisma.player.findMany({
     include: {

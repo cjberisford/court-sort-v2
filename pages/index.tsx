@@ -42,7 +42,7 @@ const Blog: React.FC<Props> = (props) => {
           </section>
 
 
-          <section className="bg-white dark:bg-gray-900">
+          <section className="bg-muted">
             <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
               <div className="max-w-screen-md mb-8 lg:mb-16">
                 <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Designed for business teams like yours</h2>
@@ -97,7 +97,7 @@ const Blog: React.FC<Props> = (props) => {
 
 
         </main>
-        <footer className="bg-white dark:bg-gray-900">
+        <footer className="bg-muted">
           <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div className="md:flex md:justify-between">
               <div className="mb-6 md:mb-0">

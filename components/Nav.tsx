@@ -95,7 +95,7 @@ const Nav: React.FC = () => {
                   <div className="h-6 w-6 bg-primary mr-1"></div>
                   <span className="font-bold">CourtSort</span>
                 </div>
-                <div className="sm:ml-6 flex">
+                <div className="invisible sm:visible sm:ml-6 flex">
                   <NavigationMenu>
                     <NavigationMenuList>
                       <NavigationMenuItem>
@@ -111,7 +111,7 @@ const Nav: React.FC = () => {
                                   <ListItem
                                     key={item.name}
                                     title={item.name}
-                                    href='/'
+                                    href={`/divisions/${item.id}`}
                                   >
                                     This is a description
                                   </ListItem>
@@ -144,7 +144,7 @@ const Nav: React.FC = () => {
                                   <ListItem
                                     key={item.name}
                                     title={item.name}
-                                    href='/'
+                                    href={`/clubs/${item.id}`}
                                   >
                                     This is a description
                                   </ListItem>
@@ -182,7 +182,7 @@ const Nav: React.FC = () => {
                 <ModeToggle />
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <Menu.Button className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-muted">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       {session ?
@@ -207,17 +207,17 @@ const Nav: React.FC = () => {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-background py-1 shadow-lg border-2 border-muted ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {session ?
                         <><Menu.Item>
                           {({ active }) => (
                             <Link href="/" legacyBehavior>
                               <a>
                                 <div className="py-2">
-                                  <p className="block px-4  text-m text-gray-700">
+                                  <p className="block px-4  text-m text-foreground">
                                     {session.user.name}
                                   </p>
-                                  <p className="block px-4 text-sm text-gray-700">
+                                  <p className="block px-4 text-sm text-foreground">
                                     {session.user.email}
                                   </p>
                                 </div>
@@ -230,9 +230,9 @@ const Nav: React.FC = () => {
                             {({ active }) => (
                               <a
                                 href="/create"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                className={classNames(active ? 'bg-gray-100' : '', 'block rounded-md px-4 py-2 m-1 text-sm text-foreground hover:bg-muted')}
                               >
-                                New post
+                                Account
                               </a>
                             )}
                           </Menu.Item>
@@ -240,9 +240,9 @@ const Nav: React.FC = () => {
                             {({ active }) => (
                               <a
                                 href="/drafts"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                className={classNames(active ? 'bg-gray-100' : '', 'block rounded-md px-4 py-2 m-1 text-sm text-foreground hover:bg-muted')}
                               >
-                                Your drafts
+                                Profile
                               </a>
                             )}
                           </Menu.Item>
@@ -252,7 +252,7 @@ const Nav: React.FC = () => {
                               <a
                                 onClick={() => signOut()}
                                 href="#"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                className={classNames(active ? 'bg-gray-100' : '', 'block rounded-md px-4 py-2 m-1 text-sm text-foreground hover:bg-muted')}
                               >
                                 Sign out
                               </a>
@@ -264,7 +264,7 @@ const Nav: React.FC = () => {
                           {({ active }) => (
                             <a
                               href="/api/auth/signin"
-                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                              className={classNames(active ? 'bg-gray-100' : '', 'block rounded-md px-4 py-2 m-1 text-sm text-foreground hover:bg-muted')}
                             >
                               Sign in
                             </a>
