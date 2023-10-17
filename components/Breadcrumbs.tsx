@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 const convertBreadcrumb = string => {
+  console.log(string)
   return string
     .replace(/-/g, ' ')
     .replace(/oe/g, 'ö')
@@ -10,7 +11,7 @@ const convertBreadcrumb = string => {
     .replace(/ue/g, 'ü');
 };
 
-const Breadcrumbs = () => {
+const Breadcrumbs = (props) => {
   const router = useRouter();
   const [breadcrumbs, setBreadcrumbs] = useState(null);
 
@@ -18,6 +19,13 @@ const Breadcrumbs = () => {
     if (router) {
       const linkPath = router.asPath.split('/');
       linkPath.shift();
+
+      // Inspect last element in array and, if numerical, use it to look up the alias.
+      // if (!isNaN(Number(linkPath[linkPath.length - 1]))) {
+      if (props.pageAlias) {
+        linkPath.pop();
+        linkPath.push(props.pageAlias);
+      }
 
       const pathArray = linkPath.map((path, i) => {
         return { breadcrumb: path, href: '/' + linkPath.slice(0, i + 1).join('/') };

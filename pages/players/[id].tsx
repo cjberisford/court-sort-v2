@@ -34,7 +34,7 @@ const Player: React.FC<PlayerProps> = (props) => {
   console.log(stats)
   return (
     <Layout>
-      <Breadcrumbs playerName={props.name}></Breadcrumbs>
+      <Breadcrumbs pageAlias={props.name}></Breadcrumbs>
       <div className="grid grid-cols-1 md:grid-cols-2 pt-4">
         <div>
           <h1 className="mb-4 text-3xl text-primary font-medium leading-none tracking-tight ">

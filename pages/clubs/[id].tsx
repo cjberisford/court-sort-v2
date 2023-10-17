@@ -1,7 +1,5 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import ReactMarkdown from 'react-markdown';
-import Router from 'next/router';
 import Layout from '../../components/Layout';
 import { PostProps } from '../../components/Post';
 import { useSession } from 'next-auth/react';
@@ -40,6 +38,7 @@ const Club: React.FC<PostProps> = (props) => {
 
   return (
     <Layout>
+      <Breadcrumbs pageAlias={props.name}></Breadcrumbs>
       {status === 'loading' ?
         (<div role="status h-full w-full align-middle items-center">
           <svg aria-hidden="true" className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,6 +51,13 @@ const Club: React.FC<PostProps> = (props) => {
         (
           <>
             <h1 className="mb-4 pt-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl"> {props.name} Badminton Club</h1>
+            <ul>
+              <li>Club teams</li>
+              <li>Latest results from teams + give division info in</li>
+              <li>Players</li>
+              <li>Club information</li>
+              <li>Club session data</li>
+            </ul>
           </>)
       }
     </Layout>

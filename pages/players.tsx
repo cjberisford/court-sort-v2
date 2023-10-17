@@ -6,6 +6,7 @@ import { PlayerProps } from "../components/models/Player";
 import { useRouter } from 'next/router'
 import { columns } from "../components/models/players/columns";
 import { DataTable } from "../components/ui/data-table";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export const getStaticProps: GetStaticProps = async () => {
   const players = await prisma.player.findMany({
@@ -41,6 +42,7 @@ const Players: React.FC<Props> = (props) => {
   return (
 
     <Layout >
+      <Breadcrumbs />
       <DataTable data={tableData} columns={columns} />
     </Layout >
   )
