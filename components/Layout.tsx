@@ -25,7 +25,7 @@ const Layout: React.FC<Props> = (props) => (
             {/* <Input placeholder="Search..." /> */}
           </div>
         </div>
-    
+
         {props.children}
       </div>
     </div>

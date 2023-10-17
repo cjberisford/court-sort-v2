@@ -3,92 +3,97 @@ import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
 import { PlayerProps } from '../../components/models/Player';
 import prisma from '../../lib/prisma';
-import { ScrollArea } from '../../components/ui/scroll-area';
-import { Button } from '../../components/ui/button';
 import Breadcrumbs from '../../components/Breadcrumbs';
+import MatchList from '../../components/MatchList';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+
+  // Get the player by ID and find all their associated teams
+
+
+  // Get the player by ID and return games they're involed in
   const player = await prisma.player.findUnique({
     where: {
-      id: Number(params?.id)
-    }
+      id: Number(params?.id),
+    },
+    include: {
+      home_games: {
+        select: { id: true, home_points: true, matchId: true },
+      },
+      away_games: {
+        select: { id: true, home_points: true, matchId: true },
+      },
+      teams: {
+        select: { id: true, name: true },
+      },
+      club: {
+        select: { id: true, name: true },
+      }
+    },
   });
+
+  // Get unique match Ids from home and away games including team names
+  let matchIds = []
+  const all_games = player.home_games.concat(player.away_games)
+  all_games.forEach((game) => matchIds.push(game.matchId))
+  let uniqueMatchIds = Array.from(new Set(matchIds))
+
+  const matches = await prisma.match.findMany({
+    where: {
+      id: {
+        in: uniqueMatchIds,
+      }
+    },
+    include: {
+      home_team: {
+        select: { id: true, name: true },
+      },
+      away_team: {
+        select: { id: true, name: true },
+      },
+    }
+  })
+
+  const playerData = {
+    playerObject: JSON.parse(JSON.stringify(player)),
+    matchData: JSON.parse(JSON.stringify(matches))
+  }
+
   return {
-    props: player,
+    props: playerData
   };
 };
 
 const Player: React.FC<PlayerProps> = (props) => {
 
-  console.log(props)
+  console.log(props.playerObject)
+
   const stats = {
-    "Games Played": 0,
-    "Games Won": 0,
-    "Win Percentage": `0%`,
+    "Matches Played": props.matchData.length,
+    "Matches Won": 2,
+    "Win Percentage": props.matchData.length / 2 * 100 + "%",
     "Ranking": 0,
-    "Club": "Ossett Badminton Club",
+    "Club": props.playerObject.club.name + " Badminton Club",
     "Best Partnership": "Dan Fan",
     "Honours": 0
   }
 
-  console.log(stats)
   return (
     <Layout>
-      <Breadcrumbs pageAlias={props.name}></Breadcrumbs>
+      <Breadcrumbs pageAlias={props.playerObject.name}></Breadcrumbs>
+
       <div className="grid grid-cols-1 md:grid-cols-2 pt-4">
         <div>
           <h1 className="mb-4 text-3xl text-primary font-medium leading-none tracking-tight ">
-            {props.name}
+            {props.playerObject.name}
           </h1>
           <h2 className="text-2xl">{stats["Club"]}</h2>
         </div>
         <div>
           <div>
             <h2 className="text-xl pb-4">Match History</h2>
+            <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px]" />
           </div>
-          <ScrollArea className="h-[180px] w-full rounded-md border">
-            <div className="flex flex-col grow rounded-md w-full">
-              <div className="grow">
-                <Button variant="outline" className="w-full">
-                  Ossett A v Ossett B
-                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
-                </Button>
-              </div>
-              <div>
-                <Button variant="outline" className="w-full">
-                  Ossett A v Ossett B
-                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
-                </Button>
-              </div>
-
-              <div className="grow">
-                <Button variant="outline" className="w-full">
-                  Ossett A v Ossett B
-                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
-                </Button>
-              </div>
-              <div>
-                <Button variant="outline" className="w-full">
-                  Ossett A v Ossett B
-                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
-                </Button>
-              </div>
-              <div className="grow">
-                <Button variant="outline" className="w-full">
-                  Ossett A v Ossett B
-                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
-                </Button>
-              </div>
-              <div>
-                <Button variant="outline" className="w-full">
-                  Ossett A v Ossett B
-                  <span className="ml-2 bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 inline-block">W</span>
-                </Button>
-              </div>
-
-            </div>
-          </ScrollArea>
-
         </div>
       </div>
       <div className="grid gap-4 my-4">

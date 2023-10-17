@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 const convertBreadcrumb = string => {
-  console.log(string)
   return string
     .replace(/-/g, ' ')
     .replace(/oe/g, 'ö')
