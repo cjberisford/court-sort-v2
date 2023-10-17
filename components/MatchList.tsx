@@ -24,7 +24,7 @@ const resultSymbol = (match, context) => {
     victory = !victory
   }
   return (
-    <span className={`ml-2 ${victory ? "w-[25px] bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" : "w-[25px] bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"} text-xs font-medium mr-2 py-0.5 rounded inline-block`}>
+    <span className={`ml-2 ${victory ? "w-[25px] bg-green-600 text-green-200 dark:bg-green-800" : "w-[25px] bg-red-600 text-red-200 dark:bg-red-800"} text-xs font-medium mr-2 py-0.5 rounded inline-block`}>
       {victory ? <span>W</span> : <span>L</span>}
     </span>
   )
@@ -36,13 +36,19 @@ const MatchList: React.FC<Props> = (props) => (
     {
       props.matches.map((match) => {
         return (
-          <div>
-            <Button variant="outline" className="w-full">
-              <span className={isHomeTeam(match, props.context) ? "font-extrabold" : "font-extralight"}>{match.home_team.name}</span>
-              <span className="px-4">v</span>
-              <span className={isHomeTeam(match, props.context) ? "font-extralight" : "font-extrabold"}>{match.away_team.name}</span>
-              {resultSymbol(match, props.context)}
+          <div className="m-1">
+            <Button variant="outline" size="xl" className="w-full ">
+              <div className="grid grid-col-1">
+                <div>
+                  <span className={isHomeTeam(match, props.context) ? "font-extrabold" : "dark:font-extralight"}>{match.home_team.name}</span>
+                  <span className="px-2">v</span>
+                  <span className={isHomeTeam(match, props.context) ? "dark:font-extralight" : "font-extrabold"}>{match.away_team.name}</span>
+                  {resultSymbol(match, props.context)}
+                </div>
+                <span className="text-primary">    {String(match.division?.name)}</span>
+              </div>
             </Button>
+
           </div>
         )
       })
