@@ -54,6 +54,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
       division: {
         select: { id: true, name: true },
+      },
+      games: {
+        include: { home_players: true, away_players: true },
+        where: {
+          matchId: { in: matchIds }
+        }
       }
     }
   })
@@ -111,6 +117,7 @@ const Player: React.FC<PlayerProps> = (props) => {
       </div >
       <PageHeader title={""} subtitle={"Recent Matches"} />
       <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px] mb-10" />
+      <PageHeader title={""} subtitle={"Upcoming Matches"} />
       {/* <PageHeader title={""} subtitle={"Division Stats"} /> */}
 
     </Layout >

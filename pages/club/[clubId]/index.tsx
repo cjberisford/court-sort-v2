@@ -67,6 +67,7 @@ const Club: React.FC<PostProps> = (props) => {
               <li>Players</li>
               <li>Club information</li>
               <li>Club session data</li>
+              <li>Socials</li>
             </ul>
           </>)
       }
