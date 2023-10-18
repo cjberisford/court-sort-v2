@@ -11,7 +11,8 @@ import Breadcrumbs from "../components/Breadcrumbs";
 export const getStaticProps: GetStaticProps = async () => {
   const players = await prisma.player.findMany({
     include: {
-      club: true
+      club: true,
+      teams: true
     },
   });
   return {
@@ -26,6 +27,8 @@ type Props = {
 
 const Players: React.FC<Props> = (props) => {
 
+
+
   const tableData = []
 
   props.players.map((playerData) => {
@@ -33,7 +36,8 @@ const Players: React.FC<Props> = (props) => {
       id: playerData.id,
       name: playerData.name,
       club: playerData.club.name,
-      club_id: playerData.club.id
+      club_id: playerData.club.id,
+      teams: playerData.teams[0].name
     }
     tableData.push(playerObject)
   })

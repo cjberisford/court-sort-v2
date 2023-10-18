@@ -56,7 +56,7 @@ const MatchList: React.FC<Props> = (props) => (
     {
       props.matches.map((match) => {
         return (
-          <div className="m-1">
+          <div className="m-1" key={match.id}>
             <Button variant="outline" size="xl" className="w-full ">
               <div className="grid grid-col-1">
                 <div>
