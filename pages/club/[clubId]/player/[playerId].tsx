@@ -93,7 +93,7 @@ const Player: React.FC<PlayerProps> = (props) => {
         <div className="grid grid-cols-5">
           {Object.entries(stats).map(([key, stat]) => {
             return (
-              <div key={key} className="border-[1px] border-primary grid  aspect-square hover:bg-primary text-primary hover:text-foreground m-2">
+              <div key={key} className="border-[1px] border-primary grid aspect-square hover:bg-primary text-primary hover:text-foreground m-2 bg-gradient-to-br from-background from-60% to-foreground/10 backdrop-blur-sm hover:from-primary hover:to-primary">
                 <div className="flex w-full justify-center text-center">
                   <div className="m-auto">
                     <div className="py-2 text-foreground">
@@ -110,7 +110,8 @@ const Player: React.FC<PlayerProps> = (props) => {
         </div>
       </div >
       <PageHeader title={""} subtitle={"Recent Matches"} />
-      <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px]" />
+      <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px] mb-10" />
+      {/* <PageHeader title={""} subtitle={"Division Stats"} /> */}
 
     </Layout >
   );
