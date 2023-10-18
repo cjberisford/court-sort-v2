@@ -1,10 +1,11 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import Layout from '../../components/Layout';
-import { PlayerProps } from '../../components/models/Player';
-import prisma from '../../lib/prisma';
-import Breadcrumbs from '../../components/Breadcrumbs';
-import MatchList from '../../components/MatchList';
+import Layout from '../../../../components/Layout';
+import { PlayerProps } from '../../../../components/models/Player';
+import prisma from '../../../../lib/prisma';
+import Breadcrumbs from '../../../../components/Breadcrumbs';
+import MatchList from '../../../../components/MatchList';
+import PageHeader from '../../../../components/ui/page-header';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
@@ -14,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   // Get the player by ID and return games they're involed in
   const player = await prisma.player.findUnique({
     where: {
-      id: Number(params?.id),
+      id: Number(params?.playerId),
     },
     include: {
       home_games: {
@@ -73,24 +74,20 @@ const Player: React.FC<PlayerProps> = (props) => {
     "Matches Played": props.matchData.length,
     "Matches Won": 2,
     "Win Percentage": 2 / props.matchData.length * 100 + "%",
-    "Ranking": 0,
+    "Coefficient": 0,
     "Club": props.playerObject.club.name,
     "Best Partnership": "Dan Fan",
     "Honours": 0
   }
 
+  const crumbs = {
+
+  }
+
   return (
     <Layout>
-      <Breadcrumbs pageAlias={props.playerObject.name}></Breadcrumbs>
-      <div className="flex justify-between pt-2">
-        <div>
-          <span className="text-6xl text-foreground/75 font-extralight leading-none tracking-tight">{props.playerObject.name}</span>
-        </div>
-        <div className=" flex items-end">
-          <span className="text-5xl text-primary/75 uppercase font-bold flex-end inline-block align-bottom"> {stats.Club}</span>
-        </div>
-      </div>
-      <div className="h-[2px] p-0 m-0 bg-gradient-to-r from-primary to-transparent mb-8"></div>
+      <Breadcrumbs customCrumbs={[["Ossett Badminton Club", "/club/1"], ["Players", "/club/1/players"]]}></Breadcrumbs>
+      <PageHeader title={props.playerObject.name} subtitle={stats.Club} />
       <div className="grid grid-cols-1 mb-8">
         <div className="grid grid-cols-5">
           {Object.entries(stats).map(([key, stat]) => {
@@ -111,12 +108,7 @@ const Player: React.FC<PlayerProps> = (props) => {
           })}
         </div>
       </div >
-      <div className="flex justify-end">
-        <div className=" flex items-end">
-          <span className="text-5xl text-primary/75 uppercase font-bold flex-end inline-block align-bottom font-outline-foreground">Recent Matches</span>
-        </div>
-      </div>
-      <div className="h-[2px] p-0 m-0 bg-gradient-to-r from-primary to-transparent"></div>
+      <PageHeader title={""} subtitle={"Recent Matches"} />
       <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px]" />
 
     </Layout >

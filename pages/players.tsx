@@ -32,7 +32,8 @@ const Players: React.FC<Props> = (props) => {
     const playerObject = {
       id: playerData.id,
       name: playerData.name,
-      club: playerData.club.name
+      club: playerData.club.name,
+      club_id: playerData.club.id
     }
     tableData.push(playerObject)
   })

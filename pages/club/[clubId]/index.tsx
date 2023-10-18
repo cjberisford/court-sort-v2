@@ -1,16 +1,22 @@
 import React from 'react';
-import { GetServerSideProps } from 'next';
-import Layout from '../../components/Layout';
-import { PostProps } from '../../components/Post';
+import { PostProps } from '../../../components/Post';
 import { useSession } from 'next-auth/react';
-import prisma from '../../lib/prisma';
-import Breadcrumbs from '../../components/Breadcrumbs';
+import Breadcrumbs from '../../../components/Breadcrumbs';
+import PageHeader from '../../../components/ui/page-header';
+import Layout from '../../../components/Layout';
+import prisma from '../../../lib/prisma';
+import { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const club = await prisma.club.findUnique({
     where: {
-      id: Number(params?.id),
+      id: Number(params?.clubId),
     },
+    include: {
+      league: {
+        select: { id: true, name: true }
+      }
+    }
   });
   return {
     props: club,
@@ -39,6 +45,7 @@ const Club: React.FC<PostProps> = (props) => {
   return (
     <Layout>
       <Breadcrumbs pageAlias={props.name}></Breadcrumbs>
+      <PageHeader title={props.name} subtitle={props.league.name} />
       {status === 'loading' ?
         (<div role="status h-full w-full align-middle items-center">
           <svg aria-hidden="true" className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +57,6 @@ const Club: React.FC<PostProps> = (props) => {
         :
         (
           <>
-            <h1 className="mb-4 pt-4 text-4xl font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl"> {props.name} Badminton Club</h1>
             <ul>
               <li>Club teams</li>
               <li>Latest results from teams + give division info in</li>

@@ -15,6 +15,7 @@ model League {
   name      String
   county    String
   divisions Division[] @relation("league_divisions")
+  clubs     Club[]     @relation("league_clubs")
 }
 
 model Player {
@@ -29,14 +30,16 @@ model Player {
 }
 
 model Club {
-  id       Int        @id @default(autoincrement())
-  name     String
-  location String
-  venue    String
-  website  String
-  teams    Team[]     @relation("club_team")
-  sessions Training[] // Many-to-Many relationship with Training
-  players  Player[]   @relation("player_club")
+  id        Int        @id @default(autoincrement())
+  name      String
+  location  String
+  venue     String
+  website   String
+  teams     Team[]     @relation("club_team")
+  sessions  Training[] // Many-to-Many relationship with Training
+  players   Player[]   @relation("player_club")
+  league    League     @relation("league_clubs", fields: [league_id], references: [id])
+  league_id Int        @default(1)
 }
 
 model Team {

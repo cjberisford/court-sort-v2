@@ -33,6 +33,26 @@ const resultSymbol = (match, context) => {
 const MatchList: React.FC<Props> = (props) => (
   // <ScrollArea className={`h-[] w-full rounded-md border"`} >
   <ScrollArea className={`${props.className} w-full rounded-md border`} >
+    {/* {
+      props.matches.map((match) => {
+        return (
+          <div className="m-1">
+            <Button variant="outline" size="xl" className="w-full ">
+              <div className="grid grid-col-1">
+                <div>
+                  <span className={isHomeTeam(match, props.context) ? "font-extrabold" : "dark:font-extralight"}>{match.home_team.name}</span>
+                  <span className="px-2">v</span>
+                  <span className={isHomeTeam(match, props.context) ? "dark:font-extralight" : "font-extrabold"}>{match.away_team.name}</span>
+                  {resultSymbol(match, props.context)}
+                </div>
+                <span className="text-primary">    {String(match.division?.name)}</span>
+              </div>
+            </Button>
+
+          </div>
+        )
+      })
+    } */}
     {
       props.matches.map((match) => {
         return (

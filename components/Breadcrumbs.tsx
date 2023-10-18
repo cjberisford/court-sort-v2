@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { link } from 'fs';
 
 const convertBreadcrumb = string => {
   return string
@@ -16,20 +17,29 @@ const Breadcrumbs = (props) => {
 
   useEffect(() => {
     if (router) {
-      const linkPath = router.asPath.split('/');
-      linkPath.shift();
 
-      // Inspect last element in array and, if numerical, use it to look up the alias.
-      // if (!isNaN(Number(linkPath[linkPath.length - 1]))) {
-      if (props.pageAlias) {
-        linkPath.pop();
-        linkPath.push(props.pageAlias);
+      let pathArray;
+
+      // Direct mapping for custom crumbs
+      if (props.customCrumbs) {
+        pathArray = props.customCrumbs.map(([path, url]) => {
+          return { breadcrumb: path, href: url };
+        });
+      } else {
+        const linkPath = router.asPath.split('/');
+        linkPath.shift();
+
+        // Inspect last element in array and, if numerical, use it to look up the alias.
+        if (!isNaN(Number(linkPath[linkPath.length - 1]))) {
+          if (props.pageAlias) {
+            linkPath.pop();
+            linkPath.push(props.pageAlias);
+          }
+        }
+        pathArray = linkPath.map((path, i) => {
+          return { breadcrumb: path, href: '/' + linkPath.slice(0, i + 1).join('/') };
+        });
       }
-
-      const pathArray = linkPath.map((path, i) => {
-        return { breadcrumb: path, href: '/' + linkPath.slice(0, i + 1).join('/') };
-      });
-
       setBreadcrumbs(pathArray);
     }
   }, [router]);

@@ -80,7 +80,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => router.push(`/players/${row.original.id}`)}
+                  onClick={() => router.push(`/club/${row.original.club_id}/player/${row.original.id}`)}
                   className=""
                 >
                   {row.getVisibleCells().map((cell) => (
