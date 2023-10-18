@@ -6,8 +6,10 @@ import PageHeader from '../../../components/ui/page-header';
 import Layout from '../../../components/Layout';
 import prisma from '../../../lib/prisma';
 import { GetServerSideProps } from 'next';
+import Map from '../../../components/Map';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+
   const club = await prisma.club.findUnique({
     where: {
       id: Number(params?.clubId),
@@ -57,6 +59,8 @@ const Club: React.FC<PostProps> = (props) => {
         :
         (
           <>
+            {/* Fix Map
+            <Map address="Queen Elizabeth Girl's School" /> */}
             <ul>
               <li>Club teams</li>
               <li>Latest results from teams + give division info in</li>
