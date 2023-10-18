@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => router.push(`/players/${row.original.id}`)}
-                  className="odd:bg-muted odd:dark:bg-muted/25"
+                  className=""
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

@@ -91,14 +91,14 @@ const Player: React.FC<PlayerProps> = (props) => {
         </div>
       </div>
       <div className="h-[2px] p-0 m-0 bg-gradient-to-r from-primary to-transparent mb-8"></div>
-      <div className="grid grid-cols-1 divide-y mb-8">
-        <div className="grid grid-cols-5 divide-x">
+      <div className="grid grid-cols-1 mb-8">
+        <div className="grid grid-cols-5">
           {Object.entries(stats).map(([key, stat]) => {
             return (
-              <div key={key} className="border border-primary grid divide-x aspect-square hover:bg-primary text-primary hover:text-foreground m-4">
+              <div key={key} className="border-[1px] border-primary grid  aspect-square hover:bg-primary text-primary hover:text-foreground m-2">
                 <div className="flex w-full justify-center text-center">
                   <div className="m-auto">
-                    <div className="py-2 uppercase text-extralight">
+                    <div className="py-2 text-foreground">
                       {key}
                     </div>
                     <div className={typeof stat === "string" && key !== "Win Percentage" ? "text-2xl font-bold" : "text-4xl font-bold"}>
@@ -118,46 +118,6 @@ const Player: React.FC<PlayerProps> = (props) => {
       </div>
       <div className="h-[2px] p-0 m-0 bg-gradient-to-r from-primary to-transparent"></div>
       <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px]" />
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 pt-4"> 
-        <div>
-
-
-          <h2 className="text-2xl">{stats["Club"]}</h2>
-          <ul>
-            <li>
-              List of teams player belongs to
-            </li>
-            <li>PLayer statistics</li>
-            <li>Rececnt matches</li>
-          </ul>
-          <div className="flex flex-wrap">
-            {Object.entries(stats).map(([key, stat]) => {
-              return (
-                <div key={key} className="border border-primary text-center w-1 md:w-1/2 lg:w-1/3 aspect-square">
-                  <div className="flex h-full items-center justify-center">
-                    <div className="m-auto">
-                      <div className="py-2 font-bold">
-                        {key}
-                      </div>
-                      <div className={typeof stat === "string" && key !== "Win Percentage" ? "text-2xl font-bold" : "text-4xl font-bold"}>
-                        {stat}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-        <div>
-          <div>
-            <h2 className="text-xl mb-4 font-extralight uppercase border-b-2 border-primary text-right">Recent Matches</h2>
-            <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px]" />
-          </div>
-        </div>
-      </div>
-          */}
-
 
     </Layout >
   );
