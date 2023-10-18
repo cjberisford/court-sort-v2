@@ -144,7 +144,7 @@ const Nav: React.FC = () => {
                                   <ListItem
                                     key={item.name}
                                     title={item.name}
-                                    href={`/clubs/${item.id}`}
+                                    href={`/club/${item.id}`}
                                   >
                                     This is a description
                                   </ListItem>

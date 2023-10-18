@@ -80,13 +80,14 @@ const Player: React.FC<PlayerProps> = (props) => {
     "Honours": 0
   }
 
-  const crumbs = {
-
-  }
+  const crumbs = [
+    [`${props.playerObject.club.name}`, `/club/${props.playerObject.club.id}`],
+    [`Players`, `/club/${props.playerObject.club.id}/players`]
+  ]
 
   return (
     <Layout>
-      <Breadcrumbs customCrumbs={[["Ossett Badminton Club", "/club/1"], ["Players", "/club/1/players"]]}></Breadcrumbs>
+      <Breadcrumbs customCrumbs={crumbs}></Breadcrumbs>
       <PageHeader title={props.playerObject.name} subtitle={stats.Club} />
       <div className="grid grid-cols-1 mb-8">
         <div className="grid grid-cols-5">

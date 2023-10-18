@@ -22,6 +22,7 @@ const Breadcrumbs = (props) => {
 
       // Direct mapping for custom crumbs
       if (props.customCrumbs) {
+        console.log(props.customCrumbs)
         pathArray = props.customCrumbs.map(([path, url]) => {
           return { breadcrumb: path, href: url };
         });
