@@ -88,16 +88,36 @@ const MatchList: React.FC<Props> = (props) => {
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                <div className="m-1" key={match.id}>
-                  <span className="text-primary">    {String(match.division?.name)}</span>
-                  {parseDate(match.date)}
-                  <h1>{match.venue}</h1>
-                  {match.games.map(game => {
-                    return (<div>
-                      <span>{game.home_players[0].name}{game.home_players[1].name}{game.home_points}</span>
-                      <span>{game.away_players[0].name}{game.away_players[1].name}{game.away_points}</span>
-                    </div>)
-                  })}
+                <div className="m-1 w-full text-sm font-medium flex flex-col justify-center" key={match.id}>
+                  <div className="w-1/2 mx-auto">
+                    {match.games.map(game => {
+                      return (
+
+                        <div className="grid grid-cols-3 py-2 flex flex-col justify-center">
+                          <div className="grid grid-cols-1 text-right">
+                            <p>{game.home_players[0].name}</p>
+                            <p>{game.home_players[1].name}</p>
+                          </div>
+                          <div className="h-full flex justify-center items-center" >
+                            <p className="align-middle">{game.home_points}</p>
+                            <p className="px-2">-</p>
+                            <p className="align-middle">{game.away_points}</p>
+                          </div>
+                          <div className="grid grid-cols-1 text-left">
+                            <p>{game.away_players[0].name}</p>
+                            <p>{game.away_players[1].name}</p>
+                          </div>
+                        </div>
+
+                      )
+                    })}
+                  </div>
+                  <div className="text-center">
+                    <span className="text-primary">    {String(match.division?.name)}</span>
+                    <p><h1>{match.venue}</h1></p>
+                    <p>{parseDate(match.date)}</p>
+
+                  </div>
                 </div>
               </AccordionContent>
             </AccordionItem>
