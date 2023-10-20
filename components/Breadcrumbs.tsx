@@ -22,7 +22,6 @@ const Breadcrumbs = (props) => {
 
       // Direct mapping for custom crumbs
       if (props.customCrumbs) {
-        console.log(props.customCrumbs)
         pathArray = props.customCrumbs.map(([path, url]) => {
           return { breadcrumb: path, href: url };
         });
@@ -50,7 +49,7 @@ const Breadcrumbs = (props) => {
   }
 
   return (
-    <nav aria-label="breadcrumbs ">
+    <nav aria-label="breadcrumbs">
       <ol className="my-4 inline-flex items-center space-x-1 text-primary">
         <li className="inline-flex items-center text-sm font-medium">
           <svg className="w-3 h-3 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

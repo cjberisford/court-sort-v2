@@ -20,7 +20,6 @@ type Props = {
 }
 
 const Leagues: React.FC<Props> = (props) => {
-  console.log(props.leagues)
   return (
     <ThemeProvider
       attribute="class"

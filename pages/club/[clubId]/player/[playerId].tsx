@@ -6,11 +6,10 @@ import prisma from '../../../../lib/prisma';
 import Breadcrumbs from '../../../../components/Breadcrumbs';
 import MatchList from '../../../../components/MatchList';
 import PageHeader from '../../../../components/ui/page-header';
+import { Match } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-
-  // Get the player by ID and find all their associated teams
-
 
   // Get the player by ID and return games they're involed in
   const player = await prisma.player.findUnique({
@@ -27,9 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       teams: {
         select: { id: true, name: true },
       },
-      club: {
-        select: { id: true, name: true },
-      }
+      club: true
     },
   });
 
@@ -64,9 +61,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     }
   })
 
+  // Filter matches into two lists, played and upcoming
+
   const playerData = {
     playerObject: JSON.parse(JSON.stringify(player)),
-    matchData: JSON.parse(JSON.stringify(matches))
+    matchData: JSON.parse(JSON.stringify(matches)),
+    upcomingMatchData: [], // TODO: update
   }
 
   return {
@@ -74,7 +74,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-const Player: React.FC<PlayerProps> = (props) => {
+type Props = {
+  matchData: Array<Match>,
+  upcomingMatchData: Array<Match>,
+  playerObject: PlayerProps,
+};
+
+
+const Player: React.FC<Props> = (props) => {
+  const { data: session, status } = useSession();
 
   const stats = {
     "Matches Played": props.matchData.length,
@@ -92,34 +100,41 @@ const Player: React.FC<PlayerProps> = (props) => {
   ]
 
   return (
+
     <Layout>
       <Breadcrumbs customCrumbs={crumbs}></Breadcrumbs>
-      <PageHeader title={props.playerObject.name} subtitle={stats.Club} />
-      <div className="grid grid-cols-1 mb-8">
-        <div className="grid grid-cols-5">
-          {Object.entries(stats).map(([key, stat]) => {
-            return (
-              <div key={key} className="border-[1px] border-primary grid aspect-square hover:bg-primary text-primary hover:text-foreground m-2 bg-gradient-to-br from-background from-60% to-foreground/10 backdrop-blur-sm hover:from-primary hover:to-primary">
-                <div className="flex w-full justify-center text-center">
-                  <div className="m-auto">
-                    <div className="py-2 text-foreground">
-                      {key}
-                    </div>
-                    <div className={typeof stat === "string" && key !== "Win Percentage" ? "text-2xl font-bold" : "text-4xl font-bold"}>
-                      {stat}
+
+      {status !== 'loading' ?
+        <div>
+          <PageHeader title={props.playerObject.name} subtitle={stats.Club} />
+          <div className="grid grid-cols-1 mb-8">
+            <div className="grid grid-cols-5">
+              {Object.entries(stats).map(([key, stat]) => {
+                return (
+                  <div key={key} className="border-[1px] border-primary grid aspect-square hover:bg-primary text-primary hover:text-foreground m-2 bg-gradient-to-br from-background from-60% to-foreground/10 backdrop-blur-sm hover:from-primary hover:to-primary">
+                    <div className="flex w-full justify-center text-center">
+                      <div className="m-auto">
+                        <div className="py-2 text-foreground">
+                          {key}
+                        </div>
+                        <div className={typeof stat === "string" && key !== "Win Percentage" ? "text-2xl font-bold" : "text-4xl font-bold"}>
+                          {stat}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )
-          })}
+                )
+              })}
+            </div>
+          </div >
+          <PageHeader title={""} subtitle={"Recent Matches"} />
+          <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px] mb-10" />
+          <PageHeader title={""} subtitle={"Upcoming Matches"} />
+          <MatchList matches={props.upcomingMatchData} context={props.playerObject.club} className="h-[200px] mb-10" />
         </div>
-      </div >
-      <PageHeader title={""} subtitle={"Recent Matches"} />
-      <MatchList matches={props.matchData} context={props.playerObject} className="h-[200px] mb-10" />
-      <PageHeader title={""} subtitle={"Upcoming Matches"} />
-      {/* <PageHeader title={""} subtitle={"Division Stats"} /> */}
-
+        :
+        <div>Loading...</div>
+      }
     </Layout >
   );
 };

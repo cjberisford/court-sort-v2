@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 
 type Props = {
   children: ReactNode;
+  width: String;
 };
 
 const Layout: React.FC<Props> = (props) => (
@@ -14,18 +15,10 @@ const Layout: React.FC<Props> = (props) => (
     defaultTheme="system"
     enableSystem
     disableTransitionOnChange
-  >  <div className="bg-background text-foreground min-h-screen">
+  >
+    <div className="bg-background text-foreground flex flex-col min-h-screen">
       <Nav />
-      <div className="mx-auto max-w-6xl px-2 sm:px-8 md:px-8 lg:px-8">
-        <div className="flex justify-between">
-          <div>
-            {/* <Breadcrumbs /> */}
-          </div>
-          <div className="my-2">
-            {/* <Input placeholder="Search..." /> */}
-          </div>
-        </div>
-
+      <div className={`${props.width === 'full' ? "min-w-screen" : "mx-auto max-w-6xl px-2 sm:px-8 md:px-8 lg:px-8"} flex flex-col grow w-full`}>
         {props.children}
       </div>
     </div>
@@ -33,3 +26,13 @@ const Layout: React.FC<Props> = (props) => (
 );
 
 export default Layout;
+
+
+// <div className="flex justify-between">
+// <div>
+//   {/* <Breadcrumbs /> */}
+// </div>
+// <div className="my-2">
+//   {/* <Input placeholder="Search..." /> */}
+// </div>
+// </div>
