@@ -17,7 +17,7 @@ const Layout: React.FC<Props> = (props) => (
     disableTransitionOnChange
   >
     <div className="bg-background text-foreground flex flex-col min-h-screen">
-      <Nav />
+      {/* <Nav /> */}
       <div className={`${props.width === 'full' ? "min-w-screen" : "mx-auto max-w-6xl px-2 sm:px-8 md:px-8 lg:px-8"} flex flex-col grow w-full`}>
         {props.children}
       </div>
